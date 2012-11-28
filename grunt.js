@@ -7,35 +7,36 @@ module.exports = function(grunt) {
   grunt.initConfig({
     meta: {
       version: '0.1.0',
-      banner: '// Backbone.Picky, v<%= meta.version %>\n' +
-        '// Copyright (c)<%= grunt.template.today("yyyy") %> Derick Bailey, Muted Solutions, LLC.\n' + 
-        '// Distributed under MIT license\n' + 
+      banner: '// Backbone.PickySitter, v<%= meta.version %>\n' +
+        '// Copyright (c)<%= grunt.template.today("yyyy") %> Jeremy McLeod, Isochronous.org\n' +
+        '// Distributed under MIT license\n' +
+        '// Heavily, heavily based on Backbone.Picky by Derick Bailey' +
         '// http://github.com/derickbailey/backbone.picky'
     },
 
     lint: {
-      files: ['src/backbone.picky.js']
+      files: ['src/backbone.pickysitter.js']
     },
 
     rig: {
       build: {
-        src: ['<banner:meta.banner>', 'src/backbone.picky.js'],
-        dest: 'lib/backbone.picky.js'
+        src: ['<banner:meta.banner>', 'src/backbone.pickysitter.js'],
+        dest: 'lib/backbone.pickysitter.js'
       },
       amd: {
         src: ['<banner:meta.banner>', 'src/amd.js'],
-        dest: 'lib/amd/backbone.picky.js'
+        dest: 'lib/amd/backbone.pickysitter.js'
       }
     },
 
     min: {
       standard: {
         src: ['<banner:meta.banner>', '<config:rig.build.dest>'],
-        dest: 'lib/backbone.picky.min.js'
+        dest: 'lib/backbone.pickysitter.min.js'
       },
       amd: {
         src: ['<banner:meta.banner>', '<config:rig.amd.dest>'],
-        dest: 'lib/amd/backbone.picky.min.js'
+        dest: 'lib/amd/backbone.pickysitter.min.js'
       }
     },
 
