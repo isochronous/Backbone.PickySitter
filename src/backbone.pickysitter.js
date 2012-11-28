@@ -1,4 +1,4 @@
-Backbone.PickySitter = (function(Backbone, _, ChildViewContainer) {
+Backbone.PickySitter = (function(Backbone, _) {
 
     var PickySitter = {};
 
