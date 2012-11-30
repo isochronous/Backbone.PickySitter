@@ -1,111 +1,88 @@
 # Backbone.Picky
 
-Selectable entities as mixins for Backbone.Model and Backbone.Collection!
+Selectable entities as mixins for Backbone.Views in a Backbone.BabySitter ChildViewContainer!
 
 ## Source Code And Downloads
 
-You can download the raw source code from the "src" 
-folder above, or grab one of the builds from the 
-"lib" folder. 
-
-To get the latest stable release, use these links 
-which point to the 'master' branch's builds:
+You can download the raw source code from the "src" folder above, or grab one of the builds from the "lib" folder. To get the latest stable release, use these links which point to the 'master' branch's builds:
 
 ### Standard Builds
 
-Development: [backbone.picky.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/backbone.picky.js)
+Development: [backbone.pickysitter.js](https://raw.github.com/isochronous/Backbone.PickySitter/master/lib/backbone.pickysitter.js)
 
-Production: [backbone.picky.min.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/backbone.picky.min.js)
+Production: [backbone.picky.min.js](https://raw.github.com/isochronous/Backbone.PickySitter/master/lib/backbone.picky.min.js)
 
 ### AMD/RequireJS Builds
 
-Development: [backbone.picky.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/amd/backbone.picky.js)
+Development: [backbone.pickysitter.js](https://raw.github.com/isochronous/Backbone.PickySitter/master/lib/amd/backbone.pickysitter.js)
 
-Production: [backbone.picky.min.js](https://raw.github.com/derickbailey/backbone.picky/master/lib/amd/backbone.picky.min.js)
+Production: [backbone.picky.min.js](https://raw.github.com/isochronous/Backbone.PickySitter/master/lib/amd/backbone.picky.min.js)
 
 ## Documentation
 
-This readme file contains basic usage examples and 
-details on the full API, including methods, 
-attributes and events.
-
-### Annotated Source Code
-
-Picky has annotated source code using the Docco tool to turn
-comments in to documentation. This provides an in-depth look
-at what each section of is doing.
-
-##### [View The Annotated Source Code](http://derickbailey.github.com/backbone.picky/docs/backbone.picky.html)
+This readme file contains basic usage examples and details on the full API, including methods, attributes and events.
 
 ## Method Name Overrides
 
-#### IMPORTANT NOTE ABOUT METHOD NAME "select"
+## View and Container Interactions
 
-The Picky collections override the metho `select` on collections. At this
-point, I can't think of a better name for specifying a model has been
-selected. Once I find a better name, the API will change. But for now,
-you will not be able to use the standard `select` method on any
-collection that has a Picky collection mixin.
-
-## Model and Collection Interactions
-
-If you implement a `Selectable` model, the methods on the models and the
-`MultiSelect` collection will keep each other in sync. That is, if you
-call `model.select()` on a model, the collection will be notified of the
-model being selected and it will correctly update the `selectedLength` and
+If you implement a `Selectable` view, the methods on the views and the
+`MultiSelect` container will keep each other in sync. That is, if you
+call `view.select()` on a view, the container will be notified of the
+view being selected and it will correctly update the `selectedLength` and
 fire the correct events.
 
 Therefore, the following are functionally the same:
 
 ```js
-model = new MyModel();
-col = new MyCollection([model]);
+view = new MyView();
+col = new MyContainer([view]);
 
-model.select();
+view.select();
 ```
 
 ```js
-model = new MyModel();
-col = new MyCollection([model]);
+view = new MyView();
+col = new MyContainer([view]);
 
-col.select(model);
+col.select(view);
 ```
 
-### Model Requirements For Picky Collections
+### View Requirements For Picky Containers
 
-Your model for a Picky collection must implement the following API to be
+Your view for a Picky container must implement the following API to be
 usable by the selection methods and functionality:
 
 * `select: function(){...}`
 * `deselect: function(){...}`
 
-The easiest way to do this is to have your model extend `Selectable`. You
+The easiest way to do this is to have your view extend `Selectable`. You
 can, however, implement your own version of these methods.
 
 ## Backbone.Picky's Components:
 
-* **Picky.Selectable:** Creates select / deselect capabilities for a model
-* **Picky.MultiSelect:** Allows a collection to know about the selection of multiple models, including select all / deselect all
-* **Picky.SingleSelect:** Allow a collection to have an exclusively selected model
+* **Picky.Selectable:** Creates select / deselect capabilities for a view
+* **Picky.MultiSelect:** Allows a container to know about the selection of multiple views, including select all / deselect all
+* **Picky.SingleSelect:** Allow a container to have an exclusively selected view
 
 ## Picky.Selectable
 
-Creates selectable capabilities for a model, including tracking whether or
-not the model is selected, and raising events when selection changes.
+Creates selectable capabilities for a view, including tracking whether or
+not the view is selected, and raising events when selection changes.
 
 ```js
-var selectable = new Backbone.Picky.Selectable(myModel);
+var selectable = new Backbone.PickySitter.Selectable(myView);
 ```
 
 ### Basic Usage
 
-Extend your model with the `Selectable` instance to make your model
+Extend your view with the `Selectable` instance to make your view
 selectable directly.
 
 ```js
-SelectableModel = Backbone.Model.extend({
+SelectableView = Backbone.View.extend({
   initialize: function(){
-    var selectable = new Backbone.Picky.Selectable(this);
+    var selectable = new Backbone.PickySitter.Selectable(this);
     _.extend(this, selectable);
   }
 });
@@ -117,36 +94,34 @@ The following methods are included in the `Selectable` object
 
 #### Selectable#select
 
-Select a model, setting the model's `selected` attribute to true and 
-triggering a "select" event.
+Select a view, setting the view's `selected` attribute to true and triggering a "select" event.
 
 ```js
-var myModel = new SelectableModel();
+var myView = new SelectableView();
 
-myModel.on("select", function(){
+myView.on("select", function(){
   console.log("I'm selected!");
 });
 
-myModel.select(); //=> logs "I'm selected!"
-myModel.selected; //=> true
+myView.select(); //=> logs "I'm selected!"
+myView.selected; //=> true
 ```
 #### Selectable#deselect
 
-Deselect a model, setting the model's `selected` attribute to false and 
-triggering a "deselect" event.
+Deselect a view, setting the view's `selected` attribute to false and triggering a "deselect" event.
 
 ```js
-var myModel = new SelectableModel();
+var myView = new SelectableView();
 
-myModel.on("deselect", function(){
+myView.on("deselect", function(){
   console.log("I'm no longer selected!");
 });
 
 // must select it before it can be deselected
-myModel.select();
+myView.select();
 
-myModel.deselect(); //=> logs "I'm no longer selected!";
-myModel.selected; //=> false
+myView.deselect(); //=> logs "I'm no longer selected!";
+myView.selected; //=> false
 ```
 
 #### Selectable#toggleSelected
@@ -155,19 +130,19 @@ Toggles the selection state between selected and deselected by calling
 the `select` or `deselect` method appropriately.
 
 ```js
-var myModel = new SelectableModel();
+var myView = new SelectableView();
 
-myModel.on("select", function(){
+myView.on("select", function(){
   console.log("I'm selected!");
 });
 
-myModel.on("deselect", function(){
+myView.on("deselect", function(){
   console.log("I'm no longer selected!");
 });
 
 // toggle selection
-myModel.toggleSelected(); //=> "I'm selected!"
-myModel.toggleSelected(); //=> "I'm no longer selected!"
+myView.toggleSelected(); //=> "I'm selected!"
+myView.toggleSelected(); //=> "I'm no longer selected!"
 ```
 
 ### Selectable Attributes
@@ -176,49 +151,46 @@ The following attributes are manipulated by the Selectable object
 
 #### Selectable#selected
 
-Returns a boolean value indicating whether or not the model is
+Returns a boolean value indicating whether or not the view is
 currently selected.
 
 ### Selectable Events
 
-The following events are triggered from Selectable models
+The following events are triggered from Selectable views
 
 #### "selected"
 
-Triggers when a model is selected. 
+Triggers when a view is selected. 
 
 #### "deselected"
 
-Triggers when a model is deselected.
+Triggers when a view is deselected.
 
 ## Picky.SingleSelect
 
-Creates single-select capabilities for a `Backbone.Collection`, allowing
-a single model to be exclusively selected within the colllection. Selecting
-another model will cause the first one to be deselected.
+Creates single-select capabilities for a `Backbone.ChildViewContainer`, allowing a single view to be exclusively selected within the container. Selecting another view will cause the first one to be deselected.
 
 ```js
-var singleSelect = new Backbone.Picky.SingleSelect(myCollection) ;
+var singleSelect = new Backbone.PickySitter.SingleSelect(myContainer) ;
 ```
 
 ### Basic Usage
 
-Extend your collection with the `SingleSelect` instance to make your 
-collection support exclusive selections directly.
+Extend your container with the `SingleSelect` instance to make your container support exclusive selections directly.
 
 ```js
-SelectableModel = Backbone.Model.extend({
+SelectableView = Backbone.View.extend({
   initialize: function(){
-    var selectable = new Backbone.Picky.Selectable(this);
+    var selectable = new Backbone.PickySitter.Selectable(this);
     _.extend(this, selectable);
   }
 });
 
-SingleCollection = Backbone.Collection.extend({
-  model: SelectableModel,
+SingleContainer = Backbone.ChildViewContainer.extend({
+  view: SelectableView,
 
   initialize: function(){
-    var singleSelect = new Backbone.Picky.SingleSelect(this);
+    var singleSelect = new Backbone.PickySitter.SingleSelect(this);
     _.extend(this, singleSelect);
   }
 });
@@ -228,52 +200,47 @@ SingleCollection = Backbone.Collection.extend({
 
 The following methods are provided by the `SingleSelect` object.
 
-#### SingleSelect#select(model)
+#### SingleSelect#select(view)
 
-Select a model. This method will store the selected model in
-the collection's `selected` attribute, and call the model's `select`
-method to ensure the model knows it has been selected.
+Select a view. This method will store the selected view in the container's `selected` attribute, and call the view's `select` method to ensure the view knows it has been selected.
 
 ```js
-myModel = new SelectableModel();
-myCol = new MultiCollection();
-myCol.select(myModel);
+myView = new SelectableView();
+myCont = new MultiContainer();
+myCont.select(myView);
 ```
 
 Or
 
 ```js
-myModel = new SelectableModel();
-myCol = new MultiCollection([myModel]);
-myModel.select();
+myView = new SelectableView();
+myCont = new MultiContainer([myView]);
+myView.select();
 ```
 
-If the model is already selected, this is a no-op. If a previous model
-is already selected, the previous model will be deselected.
+If the view is already selected, this is a no-op. If a previous view is already selected, the previous view will be deselected.
 
-#### SingleSelect#deselect(model)
+#### SingleSelect#deselect(view)
 
-Deselect the currently selected model. This method will remove the 
-model from the collection's `selected` attribute, and call the model's 
-`deselect` method to ensure the model knows it has been deselected.
+Deselect the currently selected view. This method will remove the view from the container's `selected` attribute, and call the view's `deselect` method to ensure the view knows it has been deselected.
 
 ```js
-myModel = new SelectableModel();
-myCol = new MultiCollection();
-myCol.deselect(myModel);
+myView = new SelectableView();
+myCont = new MultiContainer();
+myCont.deselect(myView);
 ```
 
 Or
 
 ```js
-myModel = new SelectableModel();
-myCol = new MultiCollection();
-myModel.deselect();
+myView = new SelectableView();
+myCont = new MultiContainer();
+myView.deselect();
 ```
 
-If the model is not currently selected, this is a no-op. If you try to
-deselect a model that is not the currently selected model, the actual
-selected model will not be deselected.
+If the view is not currently selected, this is a no-op. If you try to
+deselect a view that is not the currently selected view, the actual
+selected view will not be deselected.
 
 ### SingleSelect Attributes
 
@@ -281,61 +248,55 @@ The following attribute is set by the multi-select automatically
 
 ### SingleSelect#selected
 
-Returns the one selected model for this collection
+Returns the one selected view for this container
 
 ```js
-myCol = new MultiCollection();
-myCol.select(model);
+myCont = new MultiContainer();
+myCont.select(view);
 
-myCol.selected; //=> model
+myCont.selected; //=> view
 ```
 
 ### SingleSelect Events
 
-The following events are triggered by the MultiSelect based on changes
-in selection:
+The following events are triggered by the MultiSelect based on changes in selection:
 
 #### "selected"
 
-Triggered when a model has been selected. Provides the selected model
-as the first parameter.
+Triggered when a view has been selected. Provides the selected view as the first parameter.
 
 #### "deselected"
 
-Triggered when a model has been deselected. Provides the deselected model
-as the first parameter.
+Triggered when a view has been deselected. Provides the deselected view as the first parameter.
 
-This fires whether `deselect` has been called explicitly, or the
-selection is being replace through another call to `select`.
+This fires whether `deselect` has been called explicitly, or the selection is being replace through another call to `select`.
 
 ## Picky.MultiSelect
 
-Creates multi-select capabilities for a `Backbone.Collection`, including
-select all, select none and select some features.
+Creates multi-select capabilities for a `Backbone.ChildViewContainer`, including select all, select none and select some features.
 
 ```js
-var multiSelect = new Backbone.Picky.MultiSelect(myCollection) ;
+var multiSelect = new Backbone.PickySitter.MultiSelect(myContainer) ;
 ```
 
 ### Basic Usage
 
-Extend your collection with the `MultiSleect` instance to make your 
-collection support multiple selections directly.
+Extend your container with the `MultiSleect` instance to make your container support multiple selections directly.
 
 ```js
-SelectableModel = Backbone.Model.extend({
+SelectableView = Backbone.View.extend({
   initialize: function(){
-    var selectable = new Backbone.Picky.Selectable(this);
+    var selectable = new Backbone.PickySitter.Selectable(this);
     _.extend(this, selectable);
   }
 });
 
-MultiCollection = Backbone.Collection.extend({
+MultiContainer = Backbone.ChildViewContainer.extend({
   
-  model: SelectableModel,
+  view: SelectableView,
 
   initialize: function(){
-    var multiSelect = new Backbone.Picky.MultiSelect(this);
+    var multiSelect = new Backbone.PickySitter.MultiSelect(this);
     _.extend(this, multiSelect);
   }
 });
@@ -344,81 +305,71 @@ MultiCollection = Backbone.Collection.extend({
 
 The following methods are provided by the `MultiSelect` object
 
-#### MultiSelect#select(model)
+#### MultiSelect#select(view)
 
-Select a model. This method will store the selected model in
-the collection's `selected` list, and call the model's `select`
-method to ensure the model knows it has been selected.
+Select a view. This method will store the selected view in the container's `selected` list, and call the view's `select` method to ensure the view knows it has been selected.
 
 ```js
-myCol = new MultiCollection();
+myCont = new MultiContainer();
 
-myCol.select(myModel);
+myCont.select(myView);
 ```
 
-If the model is already selected, this is a no-op.
+If the view is already selected, this is a no-op.
 
-#### MultiSelect#deselect(model)
+#### MultiSelect#deselect(view)
 
-Deselect a model. This method will remove the  model from
-the collection's `selected` list, and call the model's `deselect`
-method to ensure the model knows it has been deselected.
+Deselect a view. This method will remove the  view from the container's `selected` list, and call the view's `deselect` method to ensure the view knows it has been deselected.
 
 ```js
-myCol = new MultiCollection();
+myCont = new MultiContainer();
 
-myCol.deselect(myModel);
+myCont.deselect(myView);
 ```
 
-If the model is not currently selected, this is a no-op.
+If the view is not currently selected, this is a no-op.
 
 #### MultiSelect#selectAll
 
-Select all models in the collection.
+Select all views in the container.
 
 ```js
-myCol = new MultiCollection();
+myCont = new MultiContainer();
 
-myCol.selectAll();
+myCont.selectAll();
 ```
 
-Models that are already selected will not be re-selected. 
-Models that are not currently selected will be selected.
-The end result will be all models in the collection are
-selected.
+Views that are already selected will not be re-selected. Views that are not currently selected will be selected. The end result will be all views in the container are selected.
 
 #### MultiSelect#deselectAll
 
-Deselect all models in the collection.
+Deselect all views in the container.
 
 ```js
-myCol = new MultiCollection();
+myCont = new MultiContainer();
 
-myCol.deselectAll();
+myCont.deselectAll();
 ```
 
-Models that are selected will be deselected. 
-Models that are not selected will not be deselected again.
-The end result will be no models in the collection are
-selected.
+Views that are selected will be deselected. Views that are not selected will not be deselected again. The end result will be no views in the container are selected.
 
 #### MultiSelect#toggleSelectAll
 
-Toggle selection of all models in the collection:
+Toggle selection of all views in the container:
 
 ```js
-myCol = new MultiCollection();
+myCont = new MultiContainer();
 
-myCol.toggleSelectAll(); // select all models in the collection
+myCont.toggleSelectAll(); // select all views in the container
 
-myCol.toggleSelectAll(); // de-select all models in the collection
+myCont.toggleSelectAll(); // de-select all views in the container
 ```
 
 The following rules are used when toggling:
 
-* If no models are selected, select them all
-* If 1 or more models, but less than all models are selected, select them all
-* If all models are selected, deselect them all
+* If no views are selected, select them all
+* If 1 or more views, but less than all views are selected, select them all
+* If all views are selected, deselect them all
 
 ### MultiSelect Attributes
 
@@ -426,29 +377,29 @@ The following attribute is set by the multi-select automatically
 
 ### MultiSelect#selected
 
-Returns a hash of selected models, keyed from the model `cid`.
+Returns a hash of selected views, keyed from the view's `cid`.
 
 ```js
-myCol = new MultiCollection();
-myCol.select(model);
+myCont = new MultiContainer();
+myCont.select(view);
 
-myCol.selected;
+myCont.selected;
 
 //=> produces
 // {
-//   "c1": (model object here)
+//   "c1": (view object here)
 // }
 ```
 
 #### MultiSelect#selectedLength
 
-Returns the number of items in the collection that are selected.
+Returns the number of items in the container that are selected.
 
 ```js
-myCol = new MultiCollection();
-myCol.select(model);
+myCont = new MultiContainer();
+myCont.select(view);
 
-myCol.selectedLength; //=> 1
+myCont.selectedLength; //=> 1
 ```
 
 ### MultiSelect Events
@@ -458,33 +409,24 @@ in selection:
 
 #### "select:all"
 
-Triggered when all models have been selected
+Triggered when all views have been selected
 
 #### "select:none"
 
-Triggered when all models have been deselected
+Triggered when all views have been deselected
 
 #### "select:some"
 
-Triggered when at least 1 model is selected, but less than all models have
+Triggered when at least 1 view is selected, but less than all views have
 been selected
 
-## Building Backbone.Picky
+## Building Backbone.PickySitter
 
-If you wish to build Backbone.Picky on your system, you will
-need Ruby to run the Jasmine specs, and NodeJS to run the
-grunt build. 
+If you wish to build Backbone.PickySitter on your system, you will need Ruby to run the Jasmine specs, and NodeJS to run the grunt build. 
 
 ### To Run The Jasmine Specs
 
-1. Be sure you have Bundler installed in your Ruby Gems. Then
-run `bundle install` from the project folder
-
-2. Once this is done, you can run `rake jasmine` to run the 
-Jasmine server
-
-3. Point your browser at `http://localhost:8888` and you will
-see all of the specs for Backbone.Picky
+1. Don't even try, they haven't been updated since this worked on models and collections
 
 ### To Build The Packages
 
@@ -496,20 +438,15 @@ see all of the specs for Backbone.Picky
 
 ## Release Notes
 
-### v0.1.0
-
-* Added Picky.SingleSelect
-* Fleshed out the specs more
-
 ### v0.0.1
 
-* Initial release of untested code
-* Basic "Selectable" mixin for models
-* Basic "MultiSelect" mixin for collections
+* Refactored [Backbone.Picky] to work on Views contained in a Backbone.ChildViewContainer
 
 ## Legal Mumbo Jumbo (MIT License)
 
-Copyright (c) 2012 Derick Bailey, Muted Solutions, LLC
+Copyright (c) 2012 Jeremy McLeod, Isochronous.org
+
+Huge thanks to Derick Bailey of Muted Solutions LLC, from whose code this library is almost entirely based.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
