@@ -2,6 +2,13 @@
 
 Selectable entities as mixins for Backbone.Views in a Backbone.BabySitter ChildViewContainer!
 
+## Important Note
+
+At the moment, I'd recommend using this library with [my custom fork of Backbone.BabySitter][myBabysitter], rather than [the original Backbone.BabySitter][babysitter], simply because my custom fork provides the ability to define an `initialize` method on the ChildViewContainer, either by `.extend`-ing it (another added capability of my fork) or by passing an `initialize` function as a property of the `ChildViewContainer`'s `options` hash.
+
+[myBabysitter]:https://www.github.com/isochronous/backbone.babysitter
+[babySitter]:https://www.github.com/marionettejs/backbone.babysitter
+
 ## Source Code And Downloads
 
 You can download the raw source code from the "src" folder above, or grab one of the builds from the "lib" folder. To get the latest stable release, use these links which point to the 'master' branch's builds:
@@ -26,11 +33,7 @@ This readme file contains basic usage examples and details on the full API, incl
 
 ## View and Container Interactions
 
-If you implement a `Selectable` view, the methods on the views and the
-`MultiSelect` container will keep each other in sync. That is, if you
-call `view.select()` on a view, the container will be notified of the
-view being selected and it will correctly update the `selectedLength` and
-fire the correct events.
+If you implement a `Selectable` view, the methods on the views and the`MultiSelect` container will keep each other in sync. That is, if youcall `view.select()` on a view, the container will be notified of theview being selected and it will correctly update the `selectedLength` andfire the correct events.
 
 Therefore, the following are functionally the same:
 
@@ -50,14 +53,12 @@ col.select(view);
 
 ### View Requirements For Picky Containers
 
-Your view for a Picky container must implement the following API to be
-usable by the selection methods and functionality:
+Your view for a Picky container must implement the following API to beusable by the selection methods and functionality:
 
 * `select: function(){...}`
 * `deselect: function(){...}`
 
-The easiest way to do this is to have your view extend `Selectable`. You
-can, however, implement your own version of these methods.
+The easiest way to do this is to have your view extend `Selectable`. Youcan, however, implement your own version of these methods.
 
 ## Backbone.Picky's Components:
 
@@ -67,8 +68,7 @@ can, however, implement your own version of these methods.
 
 ## Picky.Selectable
 
-Creates selectable capabilities for a view, including tracking whether or
-not the view is selected, and raising events when selection changes.
+Creates selectable capabilities for a view, including tracking whether ornot the view is selected, and raising events when selection changes.
 
 ```js
 var selectable = new Backbone.PickySitter.Selectable(myView);
@@ -76,8 +76,7 @@ var selectable = new Backbone.PickySitter.Selectable(myView);
 
 ### Basic Usage
 
-Extend your view with the `Selectable` instance to make your view
-selectable directly.
+Extend your view with the `Selectable` instance to make your viewselectable directly.
 
 ```js
 SelectableView = Backbone.View.extend({
@@ -238,9 +237,7 @@ myCont = new MultiContainer();
 myView.deselect();
 ```
 
-If the view is not currently selected, this is a no-op. If you try to
-deselect a view that is not the currently selected view, the actual
-selected view will not be deselected.
+If the view is not currently selected, this is a no-op. If you try todeselect a view that is not the currently selected view, the actualselected view will not be deselected.
 
 ### SingleSelect Attributes
 
