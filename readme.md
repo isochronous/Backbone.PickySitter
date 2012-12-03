@@ -4,7 +4,7 @@ Selectable entities as mixins for Backbone.Views in a Backbone.BabySitter ChildV
 
 ## Important Note
 
-At the moment, I'd recommend using this library with [my custom fork of Backbone.BabySitter][myBabysitter], rather than [the original Backbone.BabySitter][babysitter], simply because my custom fork provides the ability to define an `initialize` method on the ChildViewContainer, either by `.extend`-ing it (another added capability of my fork) or by passing an `initialize` function as a property of the `ChildViewContainer`'s `options` hash.
+At the moment, I'd recommend using this library with [my custom fork of Backbone.BabySitter][myBabysitter], rather than [the original Backbone.BabySitter][babysitter], simply because my custom fork provides the ability to define an `initialize` method on the ChildViewContainer, either by `.extend`-ing it (another added capability of my fork) or by passing an `initialize` function as a property of the `ChildViewContainer`'s `options` hash.  This makes it easy to have a `ChildViewContainer` initialize itself as `SingleSelectable` or `MultiSelectable`, and provides an easy way to make any view added to the container `Selectable` as well.  Still, it's entirely possible to do that with the original BabySitter, I just find it easier with my own fork.
 
 [myBabysitter]:https://www.github.com/isochronous/backbone.babysitter
 [babySitter]:https://www.github.com/marionettejs/backbone.babysitter
